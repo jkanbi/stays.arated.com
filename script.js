@@ -634,13 +634,17 @@ function showMessage(message, type) {
 function handleAddProperty(event) {
     event.preventDefault();
     
+    // Collect selected amenities from checkboxes
+    const selectedAmenities = Array.from(document.querySelectorAll('.amenity-checkbox:checked'))
+        .map(checkbox => checkbox.value);
+    
     const newProperty = {
         name: document.getElementById('propName').value.trim(),
         url: document.getElementById('propUrl').value.trim(),
         type: document.getElementById('propType').value,
         location: document.getElementById('propLocation').value.trim(),
         price: document.getElementById('propPrice').value.trim(),
-        amenities: document.getElementById('propAmenities').value.trim(),
+        amenities: selectedAmenities.join(','),
         description: document.getElementById('propDescription').value.trim(),
         latitude: document.getElementById('propLatitude').value.trim(),
         longitude: document.getElementById('propLongitude').value.trim()
@@ -665,6 +669,11 @@ function handleAddProperty(event) {
     
     // Clear form
     addPropertyForm.reset();
+    
+    // Clear all amenity checkboxes
+    document.querySelectorAll('.amenity-checkbox').forEach(checkbox => {
+        checkbox.checked = false;
+    });
     
     // Show success message
     showMessage(`Property "${newProperty.name}" added successfully!`, 'success');

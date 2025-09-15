@@ -30,11 +30,38 @@
                     <option value="">All Locations</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <label for="amenityFilter">Amenities:</label>
-                <select id="amenityFilter">
-                    <option value="">All Amenities</option>
-                </select>
+            <div class="filter-group amenities-group">
+                <label>Amenities:</label>
+                <div class="amenities-checkboxes">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="wifiFilter" value="wifi">
+                        <span class="checkmark">Wifi</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="airconFilter" value="aircon">
+                        <span class="checkmark">Aircon</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="kitchenFilter" value="kitchen">
+                        <span class="checkmark">Kitchen</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="washerFilter" value="washer">
+                        <span class="checkmark">Washer</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="dryerFilter" value="dryer">
+                        <span class="checkmark">Dryer</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="parkingFilter" value="parking">
+                        <span class="checkmark">Parking</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="selfCheckinFilter" value="self-checkin">
+                        <span class="checkmark">Self-Checkin</span>
+                    </label>
+                </div>
             </div>
             <div class="filter-group">
                 <label for="typeFilter">Property Type:</label>
@@ -189,8 +216,44 @@
                         <input type="number" id="propPrice" placeholder="120" min="0">
                     </div>
                     <div class="form-group">
-                        <label for="propAmenities">Amenities</label>
-                        <input type="text" id="propAmenities" placeholder="wifi,parking,kitchen">
+                        <label>Amenities</label>
+                        <div class="amenities-checkboxes">
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="wifi" class="amenity-checkbox">
+                                <span class="checkmark"></span>
+                                Wifi
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="aircon" class="amenity-checkbox">
+                                <span class="checkmark"></span>
+                                Aircon
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="kitchen" class="amenity-checkbox">
+                                <span class="checkmark"></span>
+                                Kitchen
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="washer" class="amenity-checkbox">
+                                <span class="checkmark"></span>
+                                Washer
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="dryer" class="amenity-checkbox">
+                                <span class="checkmark"></span>
+                                Dryer
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="parking" class="amenity-checkbox">
+                                <span class="checkmark"></span>
+                                Parking
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" value="self-checkin" class="amenity-checkbox">
+                                <span class="checkmark"></span>
+                                Self-Checkin
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
