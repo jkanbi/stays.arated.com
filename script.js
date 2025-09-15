@@ -109,7 +109,7 @@ function handleDrop(event) {
     }
 }
 
-// Load sample data
+// Load sample data (manual button click)
 async function loadSampleData() {
     try {
         const response = await fetch('stays.csv');
@@ -117,14 +117,17 @@ async function loadSampleData() {
             throw new Error('Sample CSV file not found');
         }
         const csvData = await response.text();
+        if (!csvData.trim()) {
+            throw new Error('Sample CSV file is empty');
+        }
         properties = parseCSV(csvData);
         filteredProperties = [...properties];
         updateDisplay();
-        showMessage(`Successfully loaded ${properties.length} sample properties`, 'success');
+        showMessage(`Successfully loaded ${properties.length} properties from stays.csv`, 'success');
     } catch (error) {
-        // If fetch fails due to CORS, try to load embedded sample data
-        console.log('Fetch failed, loading embedded sample data:', error.message);
-        loadEmbeddedSampleData();
+        // If fetch fails, show error message
+        console.log('Could not load stays.csv:', error.message);
+        showMessage(`Could not load stays.csv: ${error.message}`, 'error');
     }
 }
 
@@ -1010,24 +1013,44 @@ async function loadFromUrl() {
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', async function() {
-    // Try to load stays.csv first, fall back to embedded data if it fails
+    // Try to load stays.csv, show message if no data exists
     try {
         const response = await fetch('stays.csv');
         if (response.ok) {
             const csvText = await response.text();
-            const csvProperties = parseCSV(csvText);
-            if (csvProperties.length > 0) {
-                properties = csvProperties;
-                filteredProperties = [...properties];
-                updateDisplay();
-                showMessage(`Loaded ${csvProperties.length} properties from stays.csv`, 'success');
+            if (csvText.trim()) {
+                const csvProperties = parseCSV(csvText);
+                if (csvProperties.length > 0) {
+                    properties = csvProperties;
+                    filteredProperties = [...properties];
+                    updateDisplay();
+                    showMessage(`Loaded ${csvProperties.length} properties from stays.csv`, 'success');
+                    return;
+                } else {
+                    console.log('stays.csv is empty or has no valid data');
+                    showMessage('stays.csv file is empty or contains no valid properties', 'error');
+                    return;
+                }
+            } else {
+                console.log('stays.csv is empty');
+                showMessage('stays.csv file is empty', 'error');
                 return;
             }
+        } else if (response.status === 404) {
+            // File not found - show message that data needs to be loaded
+            console.log('stays.csv not found');
+            showMessage('No data loaded. Please upload a CSV file or load sample data to get started.', 'error');
+            return;
+        } else {
+            // Other HTTP error
+            console.log(`Error loading stays.csv: ${response.status} ${response.statusText}`);
+            showMessage(`Error loading stays.csv: ${response.status} ${response.statusText}`, 'error');
+            return;
         }
     } catch (error) {
-        console.log('Could not load stays.csv, using embedded sample data');
+        // Network or parsing error
+        console.log('Error loading stays.csv:', error.message);
+        showMessage(`Error loading stays.csv: ${error.message}`, 'error');
+        return;
     }
-    
-    // Fall back to embedded sample data if CSV loading fails
-    loadEmbeddedSampleData();
 });
