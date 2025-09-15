@@ -46,7 +46,12 @@ fileUploadArea.addEventListener('drop', handleDrop);
 fileUploadArea.addEventListener('click', () => csvFileInput.click());
 
 // Coordinate picker event listener
-getCoordinatesBtn.addEventListener('click', openCoordinatePicker);
+if (getCoordinatesBtn) {
+    getCoordinatesBtn.addEventListener('click', openCoordinatePicker);
+    console.log('Coordinates button event listener attached');
+} else {
+    console.error('Coordinates button not found!');
+}
 
 // File upload handler
 function handleFileUpload(event) {
@@ -912,7 +917,12 @@ function getPropertyTypeIcon(type) {
 
 // Coordinate picker functions
 function openCoordinatePicker() {
+    console.log('openCoordinatePicker called');
     const modal = document.getElementById('coordinateModal');
+    if (!modal) {
+        console.error('Coordinate modal not found!');
+        return;
+    }
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     
