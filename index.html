@@ -15,28 +15,6 @@
             <p>Find and manage property stays from various booking platforms</p>
         </header>
 
-        <div class="upload-section" id="uploadSection">
-            <div class="file-upload" id="fileUploadArea">
-                <div class="upload-content">
-                    <div class="upload-icon">📁</div>
-                    <div class="upload-text">
-                        <div class="upload-title">Drop CSV file here or click to browse</div>
-                        <div class="upload-subtitle">Supports .csv files only</div>
-                    </div>
-                </div>
-                <label for="csvFile" class="upload-btn">
-                    📁 Choose File
-                </label>
-                <input type="file" id="csvFile" accept=".csv" style="display: none;" onchange="handleFileUpload(event)">
-                <span class="file-info">No file selected</span>
-            </div>
-            <div class="upload-actions">
-                <button id="loadDefault" class="btn-secondary">Load Sample Data</button>
-                <button onclick="openUrlModal()" class="btn-secondary">🌐 Load from URL</button>
-                <button id="downloadCSV" class="btn-download">💾 Download CSV</button>
-                <button id="viewMap" class="btn-map">🗺️ View on Map</button>
-            </div>
-        </div>
 
         <div class="filters">
             <div class="filter-group">
@@ -250,6 +228,30 @@
                 </div>
                 <button type="submit" class="btn-add">➕ Add Property</button>
             </form>
+        </div>
+
+        <div class="upload-section" id="uploadSection">
+            <h3>📁 Data Import & Export</h3>
+            <div class="file-upload" id="fileUploadArea">
+                <div class="upload-content">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">
+                        <div class="upload-title">Drop CSV file here or click to browse</div>
+                        <div class="upload-subtitle">Supports .csv files only</div>
+                    </div>
+                </div>
+                <label for="csvFile" class="upload-btn">
+                    📁 Choose File
+                </label>
+                <input type="file" id="csvFile" accept=".csv" style="display: none;" onchange="handleFileUpload(event)">
+                <span class="file-info">No file selected</span>
+            </div>
+            <div class="upload-actions">
+                <button id="loadDefault" class="btn-secondary">Load Sample Data</button>
+                <button onclick="openUrlModal()" class="btn-secondary">🌐 Load from URL</button>
+                <button id="downloadCSV" class="btn-download">💾 Download CSV</button>
+                <button id="viewMap" class="btn-map">🗺️ View on Map</button>
+            </div>
         </div>
     </div>
 
