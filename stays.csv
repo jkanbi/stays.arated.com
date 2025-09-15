@@ -1,12 +1,13 @@
 name,url,type,amenities,description,price,location,latitude,longitude
 Auckland Sky Tower Apartment,https://airbnb.com/rooms/123456,apartment,"parking,wifi,kitchen,gym",Modern apartment with stunning views of Auckland's skyline and harbor,120,Auckland,-36.8485,174.7633
 Queenstown Lake House,https://booking.com/hotel/789012,house,"parking,wifi,kitchen",Charming house overlooking Lake Wakatipu with mountain views,150,Queenstown,-45.0312,168.6626
-Bay of Islands Villa,https://vrbo.com/property/345678,villa,"parking,wifi,pool,kitchen",Luxurious beachfront villa with private pool and ocean access,230,Bay of Islands,-35.2167,174.2000
+Bay of Islands Villa,https://vrbo.com/property/345678,villa,"parking,wifi,pool,kitchen",Luxurious beachfront villa with private pool and ocean access,230,Bay of Islands,-35.2167,174.2
 Wellington Boutique Hotel,https://airbnb.com/rooms/901234,hotel,"wifi,gym,pool",Elegant hotel in the heart of Wellington's cultural district,110,Wellington,-41.2924,174.7787
 Christchurch Urban Condo,https://booking.com/hotel/567890,condo,"parking,wifi,kitchen,gym",Contemporary condo with modern amenities in the Garden City,95,Christchurch,-43.5321,172.6362
 Rotorua Geothermal House,https://vrbo.com/property/234567,house,"parking,wifi,kitchen",Unique house near geothermal wonders with natural hot pools,130,Rotorua,-38.1368,176.2497
 Dunedin Heritage Cottage,https://airbnb.com/rooms/678901,house,"parking,wifi,kitchen",Beautiful heritage cottage in the student quarter with character,80,Dunedin,-45.8788,170.5028
 Tauranga Beach Apartment,https://booking.com/hotel/123789,apartment,"parking,wifi,kitchen,gym,pool",Luxurious beachfront apartment with ocean views and resort amenities,190,Tauranga,-37.6878,176.1651
-Nelson Art Studio,https://vrbo.com/property/456123,apartment,"wifi,kitchen",Creative studio space in the heart of Nelson's art district,65,Nelson,-41.2706,173.2840
+Nelson Art Studio,https://vrbo.com/property/456123,apartment,"wifi,kitchen",Creative studio space in the heart of Nelson's art district,65,Nelson,-41.2706,173.284
 Wanaka Ski Lodge,https://airbnb.com/rooms/789456,hotel,"wifi,gym,pool",Mountain lodge with easy access to world-class skiing and hiking,160,Wanaka,-44.7032,169.1321
 Cabin,https://www.airbnb.co.uk/rooms/1274413629273208019?,apartment,,,120,New Zealand,-40.425283,175.504639
+Wellington Lodge,https://airbnb.com/rooms/789456,hotel,"wifi,gym,pool",Mountain lodge with easy access to world-class skiing and hiking,160,Wanaka,-44.7032,169.141
