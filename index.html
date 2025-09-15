@@ -26,7 +26,7 @@
                 <label for="csvFile" class="upload-btn">
                     📁 Choose File
                 </label>
-                <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                <input type="file" id="csvFile" accept=".csv" style="display: none;" onchange="handleFileUpload(event)">
                 <span class="file-info">No file selected</span>
             </div>
             <div class="upload-actions">

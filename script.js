@@ -50,8 +50,13 @@ getCoordinatesBtn.addEventListener('click', openCoordinatePicker);
 
 // File upload handler
 function handleFileUpload(event) {
+    console.log('File input changed:', event.target.files);
     const file = event.target.files[0];
-    if (!file) return;
+    if (!file) {
+        console.log('No file selected');
+        return;
+    }
+    console.log('Processing file:', file.name);
     processFile(file);
 }
 
@@ -703,6 +708,15 @@ function updateMap() {
     if (markers.length > 0) {
         map.fitBounds(bounds, { padding: [20, 20] });
     }
+}
+
+// Update statistics display
+function updateStats() {
+    const totalProperties = properties.length;
+    const filteredCount = filteredProperties.length;
+    
+    document.getElementById('totalProperties').textContent = totalProperties;
+    document.getElementById('filteredProperties').textContent = filteredCount;
 }
 
 // Get color for property type
