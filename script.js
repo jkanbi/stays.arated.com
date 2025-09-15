@@ -262,13 +262,39 @@ function populateLocationDropdown() {
     });
 }
 
+// Populate amenities dropdown from data
+function populateAmenitiesDropdown() {
+    // Get all amenities from properties and split by comma
+    const allAmenities = properties
+        .map(property => property.amenities)
+        .filter(amenities => amenities && amenities.trim() !== '')
+        .flatMap(amenities => amenities.split(','))
+        .map(amenity => amenity.trim())
+        .filter(amenity => amenity !== '');
+    
+    // Get unique amenities and sort them
+    const uniqueAmenities = [...new Set(allAmenities)].sort();
+    
+    // Clear existing options except the first one
+    amenityFilter.innerHTML = '<option value="">All Amenities</option>';
+    
+    // Add amenities from data
+    uniqueAmenities.forEach(amenity => {
+        const option = document.createElement('option');
+        option.value = amenity.toLowerCase();
+        option.textContent = amenity;
+        amenityFilter.appendChild(option);
+    });
+}
+
 // Update display
 function updateDisplay() {
     totalPropertiesSpan.textContent = properties.length;
     filteredPropertiesSpan.textContent = filteredProperties.length;
     
-    // Populate location dropdown when data changes
+    // Populate dropdowns when data changes
     populateLocationDropdown();
+    populateAmenitiesDropdown();
 
     if (filteredProperties.length === 0) {
         propertiesContainer.innerHTML = `
