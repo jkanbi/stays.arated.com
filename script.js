@@ -242,10 +242,33 @@ function applyFilters() {
     updateDisplay();
 }
 
+// Populate location dropdown from data
+function populateLocationDropdown() {
+    // Get unique locations from properties
+    const locations = [...new Set(properties
+        .map(property => property.location)
+        .filter(location => location && location.trim() !== '')
+    )].sort();
+    
+    // Clear existing options except the first one
+    locationFilter.innerHTML = '<option value="">All Locations</option>';
+    
+    // Add locations from data
+    locations.forEach(location => {
+        const option = document.createElement('option');
+        option.value = location.toLowerCase();
+        option.textContent = location;
+        locationFilter.appendChild(option);
+    });
+}
+
 // Update display
 function updateDisplay() {
     totalPropertiesSpan.textContent = properties.length;
     filteredPropertiesSpan.textContent = filteredProperties.length;
+    
+    // Populate location dropdown when data changes
+    populateLocationDropdown();
 
     if (filteredProperties.length === 0) {
         propertiesContainer.innerHTML = `
