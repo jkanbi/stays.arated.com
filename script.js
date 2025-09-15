@@ -430,6 +430,10 @@ function showPropertyDetails(propertyName) {
                         <div class="detail-value">${escapeHtml(property.location || 'Not specified')}</div>
                     </div>
                     <div class="detail-item">
+                        <div class="detail-label">Contact Number</div>
+                        <div class="detail-value">${property.contact ? `<a href="tel:${escapeHtml(property.contact)}">${escapeHtml(property.contact)}</a>` : 'Not provided'}</div>
+                    </div>
+                    <div class="detail-item">
                         <div class="detail-label">Price per Night</div>
                         <div class="detail-value">${property.price ? `£${escapeHtml(property.price)}` : 'Not specified'}</div>
                     </div>
@@ -648,6 +652,7 @@ function handleAddProperty(event) {
         url: document.getElementById('propUrl').value.trim(),
         type: document.getElementById('propType').value,
         location: document.getElementById('propLocation').value.trim(),
+        contact: document.getElementById('propContact').value.trim(),
         price: document.getElementById('propPrice').value.trim(),
         amenities: selectedAmenities.join(','),
         description: document.getElementById('propDescription').value.trim(),
@@ -692,7 +697,7 @@ function downloadCSV() {
     }
     
     // Create CSV content
-    const headers = ['name', 'url', 'type', 'amenities', 'description', 'price', 'location', 'latitude', 'longitude'];
+    const headers = ['name', 'url', 'type', 'amenities', 'description', 'price', 'location', 'contact', 'latitude', 'longitude'];
     
     // Debug: Log properties before CSV creation
     console.log('Properties being exported:', properties);
