@@ -399,6 +399,14 @@ header p {
     margin-bottom: 25px;
 }
 
+/* QR Code section */
+.qr-code-section {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
 
 #qrCodeCanvas {
     display: block;

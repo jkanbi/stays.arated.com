@@ -422,12 +422,29 @@ function showPropertyDetails(propertyName) {
                     </div>
                 </div>
             </div>
+            
+            <div class="detail-section">
+                <h3>📱 QR Code</h3>
+                <div class="qr-code-section">
+                    <p style="margin-bottom: 15px; color: #666; font-size: 14px;">
+                        Scan this QR code to quickly access the booking page on your mobile device:
+                    </p>
+                    <div id="qrCodeContainer" style="text-align: center; margin: 20px 0;">
+                        <canvas id="qrCodeCanvas" style="border: 2px solid #e0e0e0; border-radius: 12px; padding: 15px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     `;
     
     // Show modal
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    
+    // Generate QR code with a small delay to ensure modal is rendered
+    setTimeout(() => {
+        generateQRCode(property.url);
+    }, 100);
 }
 
 // Close property details modal
@@ -450,6 +467,92 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+// Generate QR code for URL
+function generateQRCode(url) {
+    const canvas = document.getElementById('qrCodeCanvas');
+    if (!canvas) {
+        console.error('QR Code canvas not found');
+        return;
+    }
+    
+    // Check if qrcode library is loaded
+    if (typeof qrcode === 'undefined') {
+        console.error('QRCode library not loaded');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 200;
+        canvas.height = 200;
+        ctx.fillStyle = '#f8f9fa';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#dc3545';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('QR Library Not Loaded', canvas.width / 2, canvas.height / 2 - 10);
+        ctx.fillText('Please refresh the page', canvas.width / 2, canvas.height / 2 + 10);
+        return;
+    }
+    
+    console.log('Generating QR code for URL:', url);
+    
+    // Set canvas size
+    canvas.width = 200;
+    canvas.height = 200;
+    
+    // Clear any existing QR code
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Show loading message
+    ctx.fillStyle = '#f8f9fa';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#666';
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Generating QR Code...', canvas.width / 2, canvas.height / 2);
+    
+    try {
+        // Create QR code using qrcode-generator library
+        const qr = qrcode(0, 'M'); // 0 = auto, M = medium error correction
+        qr.addData(url);
+        qr.make();
+        
+        // Get QR code size
+        const qrSize = qr.getModuleCount();
+        const cellSize = Math.floor(200 / qrSize);
+        const offset = Math.floor((200 - qrSize * cellSize) / 2);
+        
+        // Clear canvas and set background
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, 200, 200);
+        
+        // Draw QR code
+        ctx.fillStyle = '#000000';
+        for (let row = 0; row < qrSize; row++) {
+            for (let col = 0; col < qrSize; col++) {
+                if (qr.isDark(row, col)) {
+                    ctx.fillRect(
+                        offset + col * cellSize,
+                        offset + row * cellSize,
+                        cellSize,
+                        cellSize
+                    );
+                }
+            }
+        }
+        
+        console.log('QR Code generated successfully');
+        
+    } catch (error) {
+        console.error('QR Code generation error:', error);
+        ctx.fillStyle = '#f8f9fa';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#dc3545';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('QR Generation Failed', canvas.width / 2, canvas.height / 2 - 10);
+        ctx.fillText(error.message || 'Unknown error', canvas.width / 2, canvas.height / 2 + 10);
+    }
 }
 
 // Show message
