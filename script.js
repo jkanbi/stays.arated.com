@@ -280,6 +280,9 @@ function updateDisplay() {
     if (map && mapContainer.style.display !== 'none') {
         updateMap();
     }
+    
+    // Update statistics
+    updateStats();
 }
 
 // Create property row
@@ -886,9 +889,8 @@ async function loadFromUrl() {
         
         // Replace current data
         properties = newProperties;
+        filteredProperties = [...properties];
         updateDisplay();
-        updateMap();
-        updateStats();
         
         showMessage(`Successfully loaded ${newProperties.length} properties from URL!`, 'success');
         closeUrlModal();
@@ -913,9 +915,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             const csvProperties = parseCSV(csvText);
             if (csvProperties.length > 0) {
                 properties = csvProperties;
+                filteredProperties = [...properties];
                 updateDisplay();
-                updateMap();
-                updateStats();
                 showMessage(`Loaded ${csvProperties.length} properties from stays.csv`, 'success');
                 return;
             }
