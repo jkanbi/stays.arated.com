@@ -399,6 +399,14 @@ header p {
     margin-bottom: 25px;
 }
 
+
+#qrCodeCanvas {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
+
 /* Modal styles */
 .modal {
     position: fixed;
