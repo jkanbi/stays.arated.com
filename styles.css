@@ -944,13 +944,51 @@ header p {
         grid-template-columns: 1fr;
     }
     
+    .properties-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        position: relative;
+    }
+    
+    .properties-container::after {
+        content: "← Swipe to see more →";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        z-index: 10;
+        pointer-events: none;
+    }
+    
     .properties-table {
         font-size: 0.8rem;
+        min-width: 800px; /* Ensure table doesn't compress too much */
     }
     
     .properties-table th,
     .properties-table td {
         padding: 8px 6px;
+        white-space: nowrap; /* Prevent text wrapping in cells */
+    }
+    
+    .property-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: nowrap;
+    }
+    
+    .btn-details,
+    .property-url {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        min-width: 60px;
+        text-align: center;
     }
     
     .property-amenities {
