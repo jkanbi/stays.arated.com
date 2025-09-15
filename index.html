@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stays Aggregator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏠 Stays Aggregator</h1>
+            <p>Find and manage property stays from various booking platforms</p>
+        </header>
+
+        <div class="upload-section" id="uploadSection">
+            <div class="file-upload" id="fileUploadArea">
+                <div class="upload-content">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">
+                        <div class="upload-title">Drop CSV file here or click to browse</div>
+                        <div class="upload-subtitle">Supports .csv files only</div>
+                    </div>
+                </div>
+                <label for="csvFile" class="upload-btn">
+                    📁 Choose File
+                </label>
+                <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                <span class="file-info">No file selected</span>
+            </div>
+            <div class="upload-actions">
+                <button id="loadDefault" class="btn-secondary">Load Sample Data</button>
+                <button onclick="openUrlModal()" class="btn-secondary">🌐 Load from URL</button>
+                <button id="downloadCSV" class="btn-download">💾 Download CSV</button>
+                <button id="viewMap" class="btn-map">🗺️ View on Map</button>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="searchInput">🔍 Search:</label>
+                <input type="text" id="searchInput" placeholder="Search properties...">
+            </div>
+            <div class="filter-group">
+                <label for="typeFilter">Property Type:</label>
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="apartment">Self Catering Apartment</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="house">House</option>
+                    <option value="villa">Villa</option>
+                    <option value="condo">Condo</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="amenityFilter">Amenities:</label>
+                <select id="amenityFilter">
+                    <option value="">All Amenities</option>
+                    <option value="parking">Parking</option>
+                    <option value="wifi">WiFi</option>
+                    <option value="pool">Pool</option>
+                    <option value="gym">Gym</option>
+                    <option value="kitchen">Kitchen</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="locationFilter">Location:</label>
+                <select id="locationFilter">
+                    <option value="">All Locations</option>
+                    <option value="new york">New York</option>
+                    <option value="colorado">Colorado</option>
+                    <option value="florida">Florida</option>
+                    <option value="san francisco">San Francisco</option>
+                    <option value="chicago">Chicago</option>
+                    <option value="boston">Boston</option>
+                    <option value="minnesota">Minnesota</option>
+                    <option value="los angeles">Los Angeles</option>
+                    <option value="portland">Portland</option>
+                    <option value="utah">Utah</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number" id="totalProperties">0</span>
+                <span class="stat-label">Total Properties</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="filteredProperties">0</span>
+                <span class="stat-label">Filtered Results</span>
+            </div>
+        </div>
+
+        <div class="view-toggle">
+            <button id="tableViewBtn" class="view-btn active">📋 Table View</button>
+            <button id="mapViewBtn" class="view-btn">🗺️ Map View</button>
+        </div>
+
+        <div class="properties-container" id="propertiesContainer">
+            <div class="no-data">
+                <p>📋 No properties loaded. Upload a CSV file or load sample data to get started.</p>
+            </div>
+        </div>
+
+        <div class="map-container" id="mapContainer" style="display: none;">
+            <div id="map" style="height: 500px; width: 100%; border-radius: 15px;"></div>
+        </div>
+
+        <!-- Property Details Modal -->
+        <div id="propertyModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Property Details</h2>
+                    <span class="close" onclick="closePropertyModal()">&times;</span>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Property details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closePropertyModal()" class="btn-secondary">Close</button>
+                    <a id="modalBookingLink" href="#" target="_blank" class="btn-primary">View Booking</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coordinate Picker Modal -->
+        <div id="coordinateModal" class="modal" style="display: none;">
+            <div class="modal-content coordinate-modal">
+                <div class="modal-header">
+                    <h2>🗺️ Select Location on Map</h2>
+                    <span class="close" onclick="closeCoordinateModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="coordinate-instructions">
+                        <p>Click anywhere on the map to select coordinates for your property.</p>
+                        <div class="coordinate-display">
+                            <div class="coord-item">
+                                <label>Latitude:</label>
+                                <span id="selectedLat">Click on map</span>
+                            </div>
+                            <div class="coord-item">
+                                <label>Longitude:</label>
+                                <span id="selectedLng">Click on map</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="coordinateMap" style="height: 70vh; width: 100%; border-radius: 10px;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeCoordinateModal()" class="btn-secondary">Cancel</button>
+                    <button onclick="useSelectedCoordinates()" class="btn-primary" id="useCoordsBtn" disabled>Use These Coordinates</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- URL Loader Modal -->
+        <div id="urlModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🌐 Load CSV from URL</h2>
+                    <span class="close" onclick="closeUrlModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="url-instructions">
+                        <p>Enter a URL to a CSV file hosted online. The file should be publicly accessible and in CSV format.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="csvUrl">CSV URL:</label>
+                        <input type="url" id="csvUrl" placeholder="https://example.com/stays.csv" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div class="url-examples">
+                        <p><strong>Examples:</strong></p>
+                        <ul>
+                            <li>GitHub raw files: <code>https://raw.githubusercontent.com/user/repo/main/stays.csv</code></li>
+                            <li>Google Sheets (export as CSV): <code>https://docs.google.com/spreadsheets/d/.../export?format=csv</code></li>
+                            <li>Dropbox/OneDrive public links</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeUrlModal()" class="btn-secondary">Cancel</button>
+                    <button onclick="loadFromUrl()" class="btn-primary" id="loadUrlBtn">Load CSV</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-property-section">
+            <h3>➕ Add New Property</h3>
+            <form id="addPropertyForm" class="property-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propName">Property Name *</label>
+                        <input type="text" id="propName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="propUrl">Booking URL *</label>
+                        <input type="url" id="propUrl" required placeholder="https://...">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propType">Property Type *</label>
+                        <select id="propType" required>
+                            <option value="">Select Type</option>
+                            <option value="apartment">Self Catering Apartment</option>
+                            <option value="hotel">Hotel</option>
+                            <option value="house">House</option>
+                            <option value="villa">Villa</option>
+                            <option value="condo">Condo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="propLocation">Location</label>
+                        <input type="text" id="propLocation" placeholder="City, State">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propPrice">Price per Night (£)</label>
+                        <input type="number" id="propPrice" placeholder="120" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="propAmenities">Amenities</label>
+                        <input type="text" id="propAmenities" placeholder="wifi,parking,kitchen">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propLatitude">Latitude</label>
+                        <input type="number" id="propLatitude" placeholder="40.7128" step="any">
+                    </div>
+                    <div class="form-group">
+                        <label for="propLongitude">Longitude</label>
+                        <input type="number" id="propLongitude" placeholder="-74.0060" step="any">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <button type="button" id="getCoordinatesBtn" class="btn-coordinates">
+                            🗺️ Get Coordinates from Map
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="propDescription">Description</label>
+                    <textarea id="propDescription" placeholder="Brief description of the property..."></textarea>
+                </div>
+                <button type="submit" class="btn-add">➕ Add Property</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
