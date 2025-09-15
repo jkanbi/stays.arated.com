@@ -890,7 +890,26 @@ async function loadFromUrl() {
 }
 
 // Initialize the app
-document.addEventListener('DOMContentLoaded', function() {
-    // Load embedded sample data directly (no server needed)
+document.addEventListener('DOMContentLoaded', async function() {
+    // Try to load stays.csv first, fall back to embedded data if it fails
+    try {
+        const response = await fetch('stays.csv');
+        if (response.ok) {
+            const csvText = await response.text();
+            const csvProperties = parseCSV(csvText);
+            if (csvProperties.length > 0) {
+                properties = csvProperties;
+                updateDisplay();
+                updateMap();
+                updateStats();
+                showMessage(`Loaded ${csvProperties.length} properties from stays.csv`, 'success');
+                return;
+            }
+        }
+    } catch (error) {
+        console.log('Could not load stays.csv, using embedded sample data');
+    }
+    
+    // Fall back to embedded sample data if CSV loading fails
     loadEmbeddedSampleData();
 });
