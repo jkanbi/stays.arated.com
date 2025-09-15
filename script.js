@@ -807,6 +807,8 @@ function updateMap() {
         const lat = parseFloat(property.latitude);
         const lng = parseFloat(property.longitude);
         
+        console.log(`Property: ${property.name}, Coordinates: ${lat}, ${lng}`);
+        
         if (isNaN(lat) || isNaN(lng)) {
             console.warn(`Invalid coordinates for property: ${property.name}`);
             return;
@@ -848,6 +850,9 @@ function updateMap() {
                 </div>
                 <div style="color: #666; font-size: 14px; margin-bottom: 6px;">
                     📍 ${escapeHtml(location)}
+                </div>
+                <div style="color: #888; font-size: 12px; margin-bottom: 6px; font-family: monospace;">
+                    🗺️ ${lat.toFixed(7)}, ${lng.toFixed(7)}
                 </div>
                 <div style="color: #2e7d32; font-weight: 500; font-size: 14px; margin-bottom: 6px;">
                     ${price}
@@ -966,8 +971,8 @@ function initCoordinateMap() {
         selectedCoordinates = { lat: lat, lng: lng };
         
         // Update display
-        document.getElementById('selectedLat').textContent = lat.toFixed(6);
-        document.getElementById('selectedLng').textContent = lng.toFixed(6);
+        document.getElementById('selectedLat').textContent = lat.toFixed(7);
+        document.getElementById('selectedLng').textContent = lng.toFixed(7);
         
         // Enable use button
         document.getElementById('useCoordsBtn').disabled = false;
@@ -985,10 +990,13 @@ function initCoordinateMap() {
 
 function useSelectedCoordinates() {
     if (selectedCoordinates) {
-        document.getElementById('propLatitude').value = selectedCoordinates.lat.toFixed(6);
-        document.getElementById('propLongitude').value = selectedCoordinates.lng.toFixed(6);
+        const lat = selectedCoordinates.lat.toFixed(7);
+        const lng = selectedCoordinates.lng.toFixed(7);
+        console.log('Selected coordinates:', lat, lng);
+        document.getElementById('propLatitude').value = lat;
+        document.getElementById('propLongitude').value = lng;
         closeCoordinateModal();
-        showMessage('Coordinates added to form!', 'success');
+        showMessage(`Coordinates added: ${lat}, ${lng}`, 'success');
     }
 }
 
