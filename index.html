@@ -254,5 +254,32 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
+    
+    <!-- Live Reload Script -->
+    <script>
+        // Simple live reload - checks for file changes every 2 seconds
+        let lastModified = null;
+        
+        function checkForChanges() {
+            fetch(window.location.href + '?t=' + Date.now(), { method: 'HEAD' })
+                .then(response => {
+                    const currentModified = response.headers.get('last-modified');
+                    if (lastModified && lastModified !== currentModified) {
+                        console.log('File changed, reloading...');
+                        window.location.reload();
+                    }
+                    lastModified = currentModified;
+                })
+                .catch(() => {
+                    // Ignore errors, just retry later
+                });
+        }
+        
+        // Check for changes every 2 seconds
+        setInterval(checkForChanges, 2000);
+        
+        // Initial check
+        checkForChanges();
+    </script>
 </body>
 </html>
