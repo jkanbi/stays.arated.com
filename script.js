@@ -868,16 +868,31 @@ function updateMap() {
                 <div style="color: #666; font-size: 12px; margin-bottom: 10px;">
                     ${escapeHtml(amenities)}
                 </div>
-                <a href="${property.url}" target="_blank" style="
-                    display: inline-block;
-                    background: #667eea;
-                    color: white;
-                    padding: 6px 12px;
-                    border-radius: 4px;
-                    text-decoration: none;
-                    font-size: 12px;
-                    font-weight: 500;
-                ">View Listing</a>
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button onclick="showPropertyDetails('${property.name}')" style="
+                        background: #28a745;
+                        color: white;
+                        border: none;
+                        padding: 6px 12px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        flex: 1;
+                    ">📋 Details</button>
+                    <a href="${property.url}" target="_blank" style="
+                        display: inline-block;
+                        background: #667eea;
+                        color: white;
+                        padding: 6px 12px;
+                        border-radius: 4px;
+                        text-decoration: none;
+                        font-size: 12px;
+                        font-weight: 500;
+                        flex: 1;
+                        text-align: center;
+                    ">🔗 View Listing</a>
+                </div>
             </div>
         `;
         
